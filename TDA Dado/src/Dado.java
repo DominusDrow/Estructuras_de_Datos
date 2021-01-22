@@ -5,6 +5,9 @@ import java.util.Random;
  * entero, la cual guardará el estado (1 al  6 o 0 si no se ha tirado) del dado, a este se le 
  * asocian las operaciones básicas que permitan su funcionamiento como lanzarlo, obtener 
  * su valor y mostrarlo, será utilizado para declarar variables y definir objetos de su tipo.
+ * <br>
+ * <H2>Repositorio en github:</H2><br>
+ * @see <a href="https://github.com/DominusDrow/Estructuras_de_Datos.git">FCC</a>
  * @author Alfredo Omar Vasquez Lopez
  * @version 1.0
  * @since JDK 2.0 20/ENE/2021
