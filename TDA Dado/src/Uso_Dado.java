@@ -105,7 +105,6 @@ public class Uso_Dado {
 		
 		System.out.print("\n\n\nJuego terminado.");
 		
-		
 	}
 
 }
