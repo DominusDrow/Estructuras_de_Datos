@@ -4,9 +4,7 @@ public class Pila_Uso {
 
     public static void main(String[] args) {
         
-        Scanner entrada = new Scanner(System.in);
-        
-        String text = entrada.nextLine();
+        String text = new Scanner(System.in).nextLine();
         
         Pila_Signos pila = new Pila_Signos();
 
@@ -38,7 +36,5 @@ public class Pila_Uso {
            System.out.println("Incorrecto");
 
     }
-
-
     
 }
