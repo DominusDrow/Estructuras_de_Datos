@@ -1,33 +1,64 @@
-import java.lang.reflect.Method;
+import java.util.ArrayList;
 
-public class Lista_Enlazada {
-    
-     
+public class Lista_ligada {
+
+         
     private class Nodo {
         
-        public Libro libro;
+        public Object object;
         public Nodo sig;
 
-        public Nodo(Libro libro){
-            this.libro=libro;
+        public Nodo(Object object){
+            this.object=object;
         }
 
     }
 
-    private Nodo cabeza=null;
+    private Nodo cabeza =null;
     private int Longitud=0;
-
-    public void InsertarInicio(Libro libro) {
+    
+    /*
+     *implementación de una operación denominada impares(…) 
+     *que elimine los  nodos que se encuentren en posiciones 
+     *impares de una lista ligada
+     */
+    public void Impares(){
         
-        Nodo nodo= new Nodo(libro);
+        if(cabeza!=null && cabeza.sig!=null){
+
+            Nodo []eliminar = new Nodo[Longitud/2];
+            Nodo aux = cabeza;
+            int contador=0,i=0;
+
+            while(aux.sig!=null){
+
+                if((contador++)%2==0)
+                    eliminar[i++]=aux;
+                aux=aux.sig;
+            }
+
+            for(Nodo n:eliminar){
+                aux=n.sig;
+                n.sig=n.sig.sig;
+                aux=null;
+                Longitud--;
+            }
+        }
+    }
+    //metodo impares
+
+
+    public void InsertarInicio(Object object) {
+        
+        Nodo nodo= new Nodo(object);
         nodo.sig=cabeza;
         cabeza=nodo;
         Longitud++;
     }
 
-    public void InsertarFinal(Libro libro) {
+    public void InsertarFinal(Object object) {
         
-        Nodo nodo= new Nodo(libro);
+        Nodo nodo= new Nodo(object);
 
         if(cabeza==null)
             cabeza=nodo;
@@ -41,9 +72,9 @@ public class Lista_Enlazada {
         Longitud++;
     }
 
-    public void InsertarDespues(int n, Libro libro) {
+    public void InsertarDespues(int n, Object object) {
         
-        Nodo nodo = new Nodo(libro);
+        Nodo nodo = new Nodo(object);
         
         if(cabeza==null)
             cabeza = nodo;
@@ -58,38 +89,6 @@ public class Lista_Enlazada {
             aux.sig=nodo;
         }
         Longitud++;
-    }
-
-
-    public Libro obtener(int n){
-
-        if(cabeza==null)
-            return null;
-        else{
-            Nodo aux=cabeza;
-            int contador=0;
-            while (contador<n && aux.sig!=null) {
-                aux=aux.sig;
-                contador++;   
-            }
-
-            if(contador!=n)
-                return null;
-            else
-                return aux.libro;
-        }
-    }
-
-    public int contar(){
-        return Longitud;
-    }
-
-    public boolean vacia(){
-        return cabeza==null;
-    }
-
-    public Nodo getCabeza(){
-        return this.cabeza;
     }
 
     public void EliminarInicio() {
@@ -144,42 +143,10 @@ public class Lista_Enlazada {
 
         Nodo aux=cabeza;
         while (aux!=null) {
-            System.out.print(aux.libro.getTitulo()+" --> ");
+            System.out.print(aux.object+" --> ");
             aux=aux.sig;
         }
         System.out.print("\n\n");
-    }
-
-    public void CombinarLista(Nodo cabeza){
-
-        Nodo aux1= this.cabeza;
-        Nodo aux2= cabeza;
-        Nodo aux3,aux4;
-
-        while(aux1!=null || aux2!=null){
-            
-            if(aux1!=null && aux2!=null){
-                aux3=aux1.sig; 
-                aux4=aux2.sig;
-               
-                aux1.sig=aux2;
-                aux2.sig=aux3;
-                
-                aux1=aux3;
-                aux2=aux4;
-
-            }else if(aux2!=null){
-
-                aux3=this.cabeza;
-                while(aux3.sig!=null){
-                    aux3=aux3.sig;
-                }
-                aux3.sig=aux2;
-                aux2=aux2.sig;
-            }else
-                break;
-        }
-
     }
 
 }

@@ -4,7 +4,7 @@ public class Libro {
     private String autor;
     
     public Libro(String titulo, String autor) {
-        this.titulo=tutulo;
+        this.titulo=titulo;
         this.autor=autor;
     }
 
