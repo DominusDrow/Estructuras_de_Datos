@@ -18,4 +18,6 @@ public interface IBST {
 
     void eliminar(int id);
 
+    ABST raiz();
+
 }

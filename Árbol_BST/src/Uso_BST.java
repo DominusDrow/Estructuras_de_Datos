@@ -19,7 +19,7 @@ public class Uso_BST {
 
         System.out.println("\nla profundidad del nodo es: "+bst.profundidadNodo(8));
 
-        System.out.println("\nlas hojas del nodo es: "+bst.NumeroHojas(3));
+        System.out.println("\nlas hojas del nodo es: "+bst.NumeroHojas(bst.raiz()));
 
     }
 

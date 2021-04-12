@@ -1,8 +1,8 @@
+
 public class ABST implements IBST {
     
     private Integer valor;
     private ABST padre,izq,der;
-
 
     public Integer alturaNodo(Integer id){
         ABST nodo = obtener(id);
@@ -30,16 +30,15 @@ public class ABST implements IBST {
         return i;
     }
 
-    public Integer NumeroHojas(Integer id){
-        ABST nodo = obtener(id);
+    public Integer NumeroHojas(ABST nodo){
         int i=0;
 
         if(nodo.esHoja())
             i++;
         if(nodo.izq!=null)
-            i+=NumeroHojas(nodo.izq.valor);
+            i+=NumeroHojas(nodo.izq);
         if(nodo.der!=null)
-            i+=NumeroHojas(nodo.der.valor);
+            i+=NumeroHojas(nodo.der);
 
         return i;
     }
@@ -193,6 +192,15 @@ public class ABST implements IBST {
             return this;
     }
 
+    @Override
+    public ABST raiz(){
+        ABST raiz=this;
+
+        while(raiz.padre!=null)
+            raiz=raiz.padre;
+
+        return raiz;
+    }
     
     public String toString(){
         return ""+this.valor;
