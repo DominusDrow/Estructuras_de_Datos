@@ -1,14 +1,16 @@
-public class ABST {
+import java.util.ArrayList;
+
+public class A_EXP {
     
     private Object token;
-    private static ABST aux;
-    private ABST padre,izq,der;
+    private static A_EXP aux;
+    private A_EXP padre,izq,der;
  
     public void insertar(Object obj){
         insertarImpl(obj,null);
     }
 
-    public void insertarImpl(Object obj, ABST padre){
+    public void insertarImpl(Object obj, A_EXP padre){
 
         if(token==null){
             this.token=obj;
@@ -17,11 +19,11 @@ public class ABST {
         else if(obj.equals('(')){
   
             if(token.equals('(')){
-                if(izq==null) izq=new ABST();
+                if(izq==null) izq=new A_EXP();
                 izq.insertarImpl(obj,this);
             }
             else if(token.equals('*') || token.equals('+') || token.equals('-') || token.equals('/')){
-                if(der==null) der=new ABST();
+                if(der==null) der=new A_EXP();
                 der.insertarImpl(obj,this);
             }          
         }
@@ -32,11 +34,11 @@ public class ABST {
         else if(!obj.equals(')')){
             
             if(token.equals('(')){ 
-                if(izq==null) izq=new ABST();
+                if(izq==null) izq=new A_EXP();
                 izq.insertarImpl(obj,this);
             }
             else if(token.equals('*') || token.equals('+') || token.equals('-') || token.equals('/')){
-                if(der==null) der=new ABST();
+                if(der==null) der=new A_EXP();
                 der.insertarImpl(obj,this);
             }
 
@@ -44,7 +46,7 @@ public class ABST {
 
     }
 
-    private void signos(ABST nodo, Object obj){
+    private void signos(A_EXP nodo, Object obj){
         
         if(nodo.token.equals('('))
             nodo.token=obj;
@@ -63,11 +65,11 @@ public class ABST {
     }
 
 
-    public double evaluar(ABST nodo){
+    public double evaluar(A_EXP nodo){
         double i=0;
         
         if(nodo.esHoja() && nodo!=null)
-            i=Character.getNumericValue( (Character) nodo.token);
+            i= (double) nodo.token;
         
         else if((nodo.esHoja() || nodo.token.equals('*')|| nodo.token.equals('+')|| nodo.token.equals('-')|| nodo. token.equals('/')) && nodo!=null)
             i= Operacion(evaluar(nodo.izq),evaluar(nodo.der), (Character) nodo.token);
@@ -104,8 +106,8 @@ public class ABST {
         }     
     }
 
-    public ABST raiz(){
-        ABST raiz=this;
+    public A_EXP raiz(){
+        A_EXP raiz=this;
 
         while(raiz.padre!=null)
             raiz=raiz.padre;
@@ -121,10 +123,29 @@ public class ABST {
         return ""+this.token;
     }
 
-    public static String convertir(String exp){
+    public static ArrayList convertir(String exp){
+        ArrayList<Object> arreglo=new ArrayList<Object>();
+        Character sg;
+        String cad="";
         
-
-        return " ";
+        for (int i = 0; i < exp.length(); i++) {
+            sg=exp.charAt(i);
+            
+            if(sg=='(' || sg=='*' || sg=='+' || sg=='-' || sg=='/'){
+                
+                if(cad!=""){
+                    arreglo.add(Double.parseDouble(cad));
+                    cad="";
+                }
+                arreglo.add(sg);
+            }
+            else if(i== exp.length()-1)
+                arreglo.add(Double.parseDouble(cad));
+                
+            else if(sg!=')')
+                cad=cad+sg;
+        }
+        return arreglo;
     }
 
 }
