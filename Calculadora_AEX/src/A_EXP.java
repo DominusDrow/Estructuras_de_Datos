@@ -16,28 +16,28 @@ public class A_EXP {
             this.token=obj;
             this.padre=padre;
         }
-        else if(obj.equals('(')){
+        else if(obj.equals('(') || obj.equals('[') || obj.equals('{')){
   
-            if(token.equals('(')){
+            if(token.equals('(') || token.equals('[') || token.equals('{')){
                 if(izq==null) izq=new A_EXP();
                 izq.insertarImpl(obj,this);
             }
-            else if(token.equals('*') || token.equals('+') || token.equals('-') || token.equals('/')){
+            else if(token.equals('*') || token.equals('+') || token.equals('-') || token.equals('/') || token.equals('^')){
                 if(der==null) der=new A_EXP();
                 der.insertarImpl(obj,this);
             }          
         }
-        else if(obj.equals('*') || obj.equals('+') || obj.equals('-') || obj.equals('/')){
+        else if(obj.equals('*') || obj.equals('+') || obj.equals('-') || obj.equals('/') || obj.equals('^')){
             ultimaHoja();
             signos(aux, obj);
         }
-        else if(!obj.equals(')')){
+        else{
             
-            if(token.equals('(')){ 
+            if(token.equals('(') || token.equals('[') || token.equals('{')){ 
                 if(izq==null) izq=new A_EXP();
                 izq.insertarImpl(obj,this);
             }
-            else if(token.equals('*') || token.equals('+') || token.equals('-') || token.equals('/')){
+            else if(token.equals('*') || token.equals('+') || token.equals('-') || token.equals('/') || token.equals('^')){
                 if(der==null) der=new A_EXP();
                 der.insertarImpl(obj,this);
             }
@@ -47,11 +47,12 @@ public class A_EXP {
     }
 
     private void signos(A_EXP nodo, Object obj){
-        
-        if(nodo.token.equals('('))
+        Object o= nodo.token;
+
+        if(o.equals('('))
             nodo.token=obj;
                 
-        else if(nodo.esHoja() || nodo.token.equals('*')|| nodo.token.equals('+')|| nodo.token.equals('-')|| nodo. token.equals('/'))
+        else if(nodo.esHoja() || o.equals('*') || o.equals('+') || o.equals('-') || o.equals('/') || o.equals('^'))
             signos(nodo.padre, obj);
     }
 
@@ -66,13 +67,14 @@ public class A_EXP {
 
 
     public double evaluar(A_EXP nodo){
+        Object o= nodo.token;
         double i=0;
+       
+        if(nodo.esHoja())
+            i= (double) o;
         
-        if(nodo.esHoja() && nodo!=null)
-            i= (double) nodo.token;
-        
-        else if((nodo.esHoja() || nodo.token.equals('*')|| nodo.token.equals('+')|| nodo.token.equals('-')|| nodo. token.equals('/')) && nodo!=null)
-            i= Operacion(evaluar(nodo.izq),evaluar(nodo.der), (Character) nodo.token);
+        else if(o.equals('*') || o.equals('+') || o.equals('-') || o.equals('/') || o.equals('^'))
+            i= Operacion(evaluar(nodo.izq),evaluar(nodo.der), (Character) o);
         
         return i;
     }
@@ -84,6 +86,7 @@ public class A_EXP {
             case '-': i= n1-n2;   break;
             case '+': i= n1+n2;   break;
             case '/': i= n1/n2;   break;
+            case '^': i= Math.pow(n1, n2);   break;
         }
         return i;
     } 
@@ -125,24 +128,28 @@ public class A_EXP {
 
     public static ArrayList convertir(String exp){
         ArrayList<Object> arreglo=new ArrayList<Object>();
-        Character sg;
+        Character sg=' ',an=' ';
         String cad="";
         
         for (int i = 0; i < exp.length(); i++) {
+            an=sg;
             sg=exp.charAt(i);
             
-            if(sg=='(' || sg=='*' || sg=='+' || sg=='-' || sg=='/'){
+            if(sg=='(' || sg=='[' || sg=='{' || sg=='*' || sg=='+' || sg=='-' || sg=='/' || sg=='^'){
                 
                 if(cad!=""){
                     arreglo.add(Double.parseDouble(cad));
                     cad="";
                 }
-                arreglo.add(sg);
+                if(sg=='-' && (an=='(' || an=='[' || an=='{' || an=='*' || an=='+' || an=='/' || an=='^'))
+                    cad=cad+sg;
+                else
+                    arreglo.add(sg);
             }
             else if(i== exp.length()-1)
                 arreglo.add(Double.parseDouble(cad));
                 
-            else if(sg!=')')
+            else if(sg!=')' && sg!=']' && sg!='}')
                 cad=cad+sg;
         }
         return arreglo;
