@@ -42,14 +42,14 @@ public class A_EXP {
                 der.insertarImpl(obj,this);
             }
 
-        }
+        } 
 
     }
 
     private void signos(A_EXP nodo, Object obj){
         Object o= nodo.token;
 
-        if(o.equals('('))
+        if(o.equals('(') || o.equals('[') || o.equals('{'))
             nodo.token=obj;
                 
         else if(nodo.esHoja() || o.equals('*') || o.equals('+') || o.equals('-') || o.equals('/') || o.equals('^'))
@@ -73,7 +73,7 @@ public class A_EXP {
         if(nodo.esHoja())
             i= (double) o;
         
-        else if(o.equals('*') || o.equals('+') || o.equals('-') || o.equals('/') || o.equals('^'))
+        else if(o!=null && (o.equals('*') || o.equals('+') || o.equals('-') || o.equals('/') || o.equals('^')))
             i= Operacion(evaluar(nodo.izq),evaluar(nodo.der), (Character) o);
         
         return i;
@@ -146,11 +146,14 @@ public class A_EXP {
                 else
                     arreglo.add(sg);
             }
+            else if((sg==')' || sg==']' || sg=='}') && arreglo.get(arreglo.size()-1).equals('(') )
+                arreglo.remove(arreglo.size()-1);
+           
             else if(i== exp.length()-1)
                 arreglo.add(Double.parseDouble(cad));
-                
+
             else if(sg!=')' && sg!=']' && sg!='}')
-                cad=cad+sg;
+                cad=cad+sg; 
         }
         return arreglo;
     }

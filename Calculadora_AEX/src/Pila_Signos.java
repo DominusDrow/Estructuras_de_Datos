@@ -31,11 +31,9 @@ public class Pila_Signos {
     }
 
     public Character obtener(){
-
-        if(cima == null)
-            return null;
-        else
-            return cima.signo;
+        
+        if(cima == null)    return null;
+        else                return cima.signo;
     }
 
     public boolean vacia(){
@@ -58,7 +56,8 @@ public class Pila_Signos {
             return '}';      
     }
 
-    public static String comprobarSig(Pila_Signos pila, String exp){
+    public static String comprobarExp(String exp){
+        Pila_Signos pila = new Pila_Signos();
 
         for(char i:exp.toCharArray()) {
 
@@ -76,11 +75,54 @@ public class Pila_Signos {
                 else 
                     pila.desapilar();
             }
-        }
-        if (pila.vacia())  
-            return "Todos los simbolos estan bien balanceados";
-        else             
+        }      
+          
+        if(!pila.vacia())
             return "Falto un  '"+Pila_Signos.SignoOpuesto(pila.obtener())+"'  que cierra";
+        else if(!comprobarOper(exp))
+            return "Operadores mal colocados";
+        else if(!comprobarExceso(exp))
+            return "Exceso o falta de parentesis, corchetes o llaves";
+        else 
+            return "Todos los simbolos estan bien balanceados";
+        
+    }
+
+    private static boolean comprobarExceso(String exp){
+        Pila_Signos pila = new Pila_Signos();
+        boolean t=false;
+
+        for (Character o : exp.toCharArray()) {
+            
+            if(o.equals('(') || o.equals('[') || o.equals('{')){
+                pila.apilar(o);
+                t=true;
+            }else if(o.equals('*') || o.equals('+') || o.equals('-') || o.equals('/') || o.equals('^'))
+                pila.desapilar();    
+        }
+
+        if(pila.vacia() && t)   return true;
+        else                    return false;
+    }
+
+    public static boolean comprobarOper(String exp){
+        Pila_Signos pila = new Pila_Signos();
+        Character o,a=' ';
+
+        for (int i=0; i<exp.length();i++) {
+            o=exp.charAt(i);
+            a=pila.obtener();
+
+            if((!Character.isDigit(o) && o!='.' && !pila.vacia()) && 
+            (((o==')' || o==']' || o=='}') && (a=='+' || a=='-' || a=='*' || a=='/' || a=='^')) || 
+            ((o=='+' || o=='-' || o=='*' || o=='/' || o=='^') && 
+            (((a=='+' || a=='-' || a=='*' || a=='/' || a=='^' || a=='(' || a=='[' || a==']') && o!='-') || 
+            pila.vacia() || o==exp.charAt(exp.length()-1)))))
+                return false;
+
+            pila.apilar(o);
+        }
+        return true;
     }
 
 }
