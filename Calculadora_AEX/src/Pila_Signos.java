@@ -105,7 +105,7 @@ public class Pila_Signos {
         else                    return false;
     }
 
-    public static boolean comprobarOper(String exp){
+    private static boolean comprobarOper(String exp){
         Pila_Signos pila = new Pila_Signos();
         Character o,a=' ';
 

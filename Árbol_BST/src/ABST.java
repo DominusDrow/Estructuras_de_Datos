@@ -3,45 +3,6 @@ public class ABST implements IBST {
     
     private Integer valor;
     private ABST padre,izq,der;
-
-    public Integer alturaNodo(Integer id){
-        ABST nodo = obtener(id);
-        int i=0;
-
-        if(nodo!=null && !nodo.esHoja()){
-
-            if(nodo.izq!=null)
-                i = Math.max(i, alturaNodo(nodo.izq.valor));
-            
-            if(nodo.der!=null)
-                i = Math.max(i, alturaNodo(nodo.der.valor));
-
-            i++; 
-        } 
-        return i;
-    }
-
-    public Integer profundidadNodo(Integer id){
-        ABST nodo = obtener(id);
-        int i=0;
-
-        if(nodo.padre!=null)
-            i= 1+ profundidadNodo(nodo.padre.valor);
-        return i;
-    }
-
-    public Integer NumeroHojas(ABST nodo){
-        int i=0;
-
-        if(nodo.esHoja())
-            i++;
-        if(nodo.izq!=null)
-            i+=NumeroHojas(nodo.izq);
-        if(nodo.der!=null)
-            i+=NumeroHojas(nodo.der);
-
-        return i;
-    }
   
     @Override
     public void insertar(Object obj){
