@@ -1,4 +1,5 @@
 import java.text.Collator;
+import java.util.Locale;
 
 public class ABST {
     
@@ -7,9 +8,9 @@ public class ABST {
     private ABST izq,der;
   
     public void insertar(String obj){
-        Collator collator = Collator.getInstance();
-        collator.setStrength(Collator.PRIMARY);
-
+        Collator collator = Collator.getInstance(new Locale("es"));
+        collator.setStrength(Collator.SECONDARY);
+       
         if(token==null){
             this.token=obj;
             this.hz=1;

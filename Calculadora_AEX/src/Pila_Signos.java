@@ -1,5 +1,5 @@
 
-public class Pila_Signos {
+ public class Pila_Signos {
 
     private class Nodo{
 
@@ -98,6 +98,7 @@ public class Pila_Signos {
                 pila.apilar(o);
                 t=true;
             }else if(o.equals('*') || o.equals('+') || o.equals('-') || o.equals('/') || o.equals('^'))
+                
                 pila.desapilar();    
         }
 
@@ -115,8 +116,8 @@ public class Pila_Signos {
 
             if((!Character.isDigit(o) && o!='.' && !pila.vacia()) && 
             (((o==')' || o==']' || o=='}') && (a=='+' || a=='-' || a=='*' || a=='/' || a=='^')) || 
-            ((o=='+' || o=='-' || o=='*' || o=='/' || o=='^') && 
-            (((a=='+' || a=='-' || a=='*' || a=='/' || a=='^' || a=='(' || a=='[' || a==']') && o!='-') || 
+            ((o=='+' || o=='*' || o=='/' || o=='^') && 
+            ((a=='+' || a=='-' || a=='*' || a=='/' || a=='^' || a=='(' || a=='[' || a=='{') || 
             pila.vacia() || o==exp.charAt(exp.length()-1)))))
                 return false;
 

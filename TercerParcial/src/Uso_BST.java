@@ -1,27 +1,23 @@
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class Uso_BST {
     
     public static void main(String[] args)   {
           
-        ABST bst = new ABST();
+        ABST bst= new ABST();
+
+        System.out.print("\t\t======Arbol ABB de palabras=======\n\nIngrese una cadena:  ");
         
-        System.out.print("\t\t====ARBOL ABB====\n\nIngrese una cadena:  ");
-    
-        for (String obj : cls(new Scanner(System.in).nextLine())) 
-            bst.insertar(obj);
+        StringTokenizer st;
+        st = new StringTokenizer(new Scanner(System.in).nextLine(),",//.//;// //><//'//://¿//?//!//¡//\"//(//)//"); 
         
+        while(st.hasMoreTokens())
+           bst.insertar(st.nextToken());
+       
         System.out.print("\nPalabra     Frecuencia\n");
         bst.enOrden();
     }
 
-    public static String [] cls(String cad){
-        String aux="";
-
-        for (char i : cad.toCharArray()) 
-            if(i!='.' && i!=',' && i!=':' && i!=';' && i!='"' && i!='!' && i!='?')
-                aux=aux+i;
-        
-        return aux.split(" ");
-    }
+    
 }
