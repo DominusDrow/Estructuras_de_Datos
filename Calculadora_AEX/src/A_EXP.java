@@ -134,23 +134,20 @@ public class A_EXP {
         for (int i = 0; i < exp.length(); i++) {
             an=sg;
             sg=exp.charAt(i);
-            Object o=null;
 
-            if(arreglo.size()>2)
-                o=arreglo.get(arreglo.size()-1);
-
-            if(sg=='(' || sg=='[' || sg=='{' || sg=='*' || sg=='+' || sg=='-' || sg=='/' || sg=='^'){
+            if(!Character.isDigit(sg) && sg!=')' && sg!=']' && sg!='}' && sg!='.'){
                 
                 if(cad!=""){
                     arreglo.add(Double.parseDouble(cad));
                     cad="";
                 }
-                if(sg=='-' && (an=='(' || an=='[' || an=='{' || an=='*' || an=='+' || an=='-' || an=='/' || an=='^'))
+                if(sg=='-' && an!=')' && an!=']' && an!='}' && an!='.' && !Character.isDigit(an))
                     cad=cad+sg;
                 else
                     arreglo.add(sg);
             }
-            else if((sg==')' || sg==']' || sg=='}') && (o.equals('(') || o.equals('[') || o.equals('{')))
+            else if((sg==')' || sg==']' || sg=='}') && (arreglo.get(arreglo.size()-1).equals('(') ||
+            arreglo.get(arreglo.size()-1).equals('[') || arreglo.get(arreglo.size()-1).equals('{')))
                 arreglo.remove(arreglo.size()-1);
            
             else if(i== exp.length()-1)

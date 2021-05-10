@@ -80,12 +80,11 @@
         if(!pila.vacia())
             return "Falto un  '"+Pila_Signos.SignoOpuesto(pila.obtener())+"'  que cierra";
         else if(!comprobarOper(exp))
-            return "Operadores mal colocados";
+            return "Operadores o punto mal colocados";
         else if(!comprobarExceso(exp))
             return "Exceso o falta de parentesis, corchetes o llaves";
         else 
             return "Todos los simbolos estan bien balanceados";
-        
     }
 
     private static boolean comprobarExceso(String exp){
@@ -109,18 +108,21 @@
     private static boolean comprobarOper(String exp){
         Pila_Signos pila = new Pila_Signos();
         Character o,a=' ';
+        int j=0;
 
         for (int i=0; i<exp.length();i++) {
             o=exp.charAt(i);
             a=pila.obtener();
 
-            if((!Character.isDigit(o) && o!='.' && !pila.vacia()) && 
-            (((o==')' || o==']' || o=='}') && (a=='+' || a=='-' || a=='*' || a=='/' || a=='^')) || 
-            ((o=='+' || o=='*' || o=='/' || o=='^') && 
-            ((a=='+' || a=='-' || a=='*' || a=='/' || a=='^' || a=='(' || a=='[' || a=='{') || 
-            pila.vacia() || o==exp.charAt(exp.length()-1)))))
+            if((!Character.isDigit(o) && !pila.vacia()) && 
+            (((o==')' || o==']' || o=='}') && (a=='+' || a=='-' || a=='*' || a=='/' || a=='^')) ||
+            ((o=='+' || o=='*' || o=='/' || o=='^' || o=='.') && 
+            ((!Character.isDigit(a) && a!=')' && a!=']' && a!='}') || o==exp.charAt(exp.length()-1)))))
                 return false;
-
+                
+            if((o=='-' && (a=='+' || a=='-' || a=='*' || a=='/' || a=='^')) && ++j==2) 
+                return false;
+                              
             pila.apilar(o);
         }
         return true;
